@@ -1,17 +1,67 @@
-# noteapp
+# NoteApp
 
-A new Flutter project.
+A modern Flutter note-taking application designed to provide a simple, secure, and customizable way to create and manage notes.
 
-## Getting Started
+## About The Project
 
-This project is a starting point for a Flutter application.
+NoteApp is a Flutter-based note-taking application integrated with Firebase for storing and managing user notes.
 
-A few resources to get you started if this is your first Flutter project:
+The app supports multiple languages and customizable themes, along with additional features such as PIN protection, image attachments, audio recording, audio playback, and note sharing.
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+## Features
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Create, edit, and delete notes
+- Firebase Firestore integration
+- Firebase Storage integration
+- Multiple language support
+- Customizable application themes
+- PIN protection for notes
+- Image picker and image attachments
+- Audio recording
+- Audio playback
+- Secure local storage
+- Search notes
+- Share notes
+- Custom fonts using Google Fonts
+- Clean and organized project structure
+
+## Technologies
+
+- Flutter
+- Dart
+- Firebase
+- Cloud Firestore
+- Firebase Storage
+- Provider
+- Google Fonts
+- Image Picker
+- Audio Recorder
+- Just Audio
+- Flutter Secure Storage
+
+## Project Structure
+
+```text
+lib/
+├── core/
+│   ├── constant/
+│   ├── localization/
+│   ├── routes/
+│   ├── theme/
+│   ├── utils/
+│   └── widget/
+│
+├── data/
+│   └── services/
+│
+├── features/
+│
+├── model/
+│
+├── provider/
+│
+├── widget/
+│
+├── app.dart.dart
+├── firebase_options.dart
+└── main.dart
