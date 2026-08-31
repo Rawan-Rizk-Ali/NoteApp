@@ -4,7 +4,10 @@ class NoteModel {
   final String? id;
   final String title;
   final String content;
-  final String? imageUrl;
+
+  // Multiple images
+  final List<String> imageUrls;
+
   final String? audioUrl;
   final int colorIndex;
   final bool isPinned;
@@ -14,18 +17,23 @@ class NoteModel {
     required this.id,
     required this.title,
     required this.content,
-    this.imageUrl,
+    this.imageUrls = const [],
     this.audioUrl,
     required this.colorIndex,
     this.isPinned = false,
     required this.createdAt,
   });
+
+  // =========================
+  // TO JSON
+  // =========================
+
   Map<String, dynamic> toJson() {
     return {
       "id": id,
       "title": title,
       "content": content,
-      "imageUrl": imageUrl,
+      "imageUrls": imageUrls,
       "audioUrl": audioUrl,
       "colorIndex": colorIndex,
       "isPinned": isPinned,
@@ -33,23 +41,41 @@ class NoteModel {
     };
   }
 
+  // =========================
+  // FROM FIRESTORE
+  // =========================
+
   factory NoteModel.fromFirestore(DocumentSnapshot doc) {
-    final data = doc.data() as Map<String, dynamic>?; 
+    final data = doc.data() as Map<String, dynamic>?;
+
     if (data == null) {
-      throw Exception("Document ${doc.id} has no data");
+      throw Exception(
+        "Document ${doc.id} has no data",
+      );
     }
+
+    // Handle imageUrls as List
+    final List<String> images = data['imageUrls'] != null
+        ? List<String>.from(data['imageUrls'])
+        : [];
 
     return NoteModel(
       id: doc.id,
+
       title: data['title'] ?? '',
+
       content: data['content'] ?? '',
-      imageUrl: data['imageUrl'],
+
+      imageUrls: images,
+
       audioUrl: data['audioUrl'],
+
       colorIndex: data['colorIndex'] ?? 0,
+
       isPinned: data['isPinned'] ?? false,
-      createdAt: data['createdAt'] ?? Timestamp.now(),
+
+      createdAt:
+          data['createdAt'] ?? Timestamp.now(),
     );
-
   }
-
 }
