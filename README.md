@@ -132,7 +132,7 @@ lib/
 ├── app.dart
 ├── firebase_options.dart
 └── main.dart
----
+
 ## Architecture
 The project follows a feature-based Clean Architecture approach.
 
@@ -146,8 +146,7 @@ Data
 
 This separation helps keep the UI, business logic, and data access independent from each other.
 
----
-## UI & Design
+ UI & Design
 
 The application follows a simple and eye-friendly design philosophy.
 
@@ -160,8 +159,7 @@ Provide clear navigation
 Support multiple themes
 Provide comfortable Light, Dark, and Sepia modes
 
----
-## Getting Started
+ Getting Started
 Prerequisites
 
 Make sure you have:
