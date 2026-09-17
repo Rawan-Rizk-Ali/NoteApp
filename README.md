@@ -1,8 +1,10 @@
-NoteApp
+# NoteApp
 
 A modern Flutter note-taking application designed to provide a simple, secure, and customizable way to create and manage notes.
 
-About The Project
+---
+
+## About The Project
 
 NoteApp is a Flutter-based note-taking application integrated with Firebase for storing and managing user notes.
 
@@ -10,44 +12,56 @@ The app provides a simple and eye-friendly user interface with multiple language
 
 The project follows a feature-based Clean Architecture structure to improve code organization, separation of concerns, maintainability, and scalability.
 
-Features
-Create, edit, and delete notes
-Firebase Firestore integration
-Firebase Storage integration
-Multiple language support
-Light, Dark, and Sepia themes
-PIN protection for notes
-Image picker and image attachments
-Image upload and management
-Audio recording
-Audio playback
-Secure local storage
-Search notes
-Share notes
-Custom fonts using Google Fonts
-Clean and eye-friendly UI
-Reusable widgets
-Feature-based project structure
-Separation of presentation, domain, and data layers
-Technologies
-Flutter
-Dart
-Flutter Localizations
-Intl
-Firebase Core
-Cloud Firestore
-Firebase Storage
-Provider
-Google Fonts
-Image Picker
-Record
-AudioPlayers
-Just Audio
-Path Provider
-Flutter Secure Storage
-Share Plus
-HTTP
-Project Structure
+---
+
+## Features
+
+- Create, edit, and delete notes
+- Firebase Firestore integration
+- Firebase Storage integration
+- Multiple language support
+- Light, Dark, and Sepia themes
+- PIN protection for notes
+- Image picker and image attachments
+- Image upload and management
+- Audio recording
+- Audio playback
+- Secure local storage
+- Search notes
+- Share notes
+- Custom fonts using Google Fonts
+- Clean and eye-friendly UI
+- Reusable widgets
+- Feature-based project structure
+- Separation of presentation, domain, and data layers
+
+---
+
+## Technologies
+
+- Flutter
+- Dart
+- Flutter Localizations
+- Intl
+- Firebase Core
+- Cloud Firestore
+- Firebase Storage
+- Provider
+- Google Fonts
+- Image Picker
+- Record
+- AudioPlayers
+- Just Audio
+- Path Provider
+- Flutter Secure Storage
+- Share Plus
+- HTTP
+
+---
+
+## Project Structure
+
+```text
 lib/
 ├── core/
 │   ├── constant/
@@ -77,19 +91,34 @@ lib/
 │   │
 │   ├── noteDetails/
 │   │   ├── data/
+│   │   │   ├── datasources/
+│   │   │   └── repositories/
 │   │   ├── domain/
+│   │   │   └── repostries/
 │   │   └── presentation/
+│   │       ├── pages/
+│   │       ├── provider/
+│   │       └── widgets/
 │   │
 │   ├── notes/
 │   │   ├── data/
+│   │   │   ├── datasources/
+│   │   │   ├── models/
+│   │   │   └── repositories/
 │   │   ├── domain/
+│   │   │   ├── entities/
+│   │   │   └── repositories/
 │   │   └── presentation/
+│   │       ├── pages/
+│   │       ├── provider/
+│   │       └── widgets/
 │   │
 │   ├── pinscreen/
 │   │   └── presentation/
 │   │
 │   ├── search/
 │   │   └── presentation/
+│   │       └── provider/
 │   │
 │   ├── setting/
 │   │   └── presentation/
@@ -103,11 +132,14 @@ lib/
 ├── app.dart
 ├── firebase_options.dart
 └── main.dart
+---
+
+##
 Architecture
 
 The project follows a feature-based Clean Architecture approach.
 
-Each feature is organized into three main layers:
+Each major feature is separated into three main layers:
 
 Presentation
       ↓
@@ -115,24 +147,26 @@ Domain
       ↓
 Data
 
-This structure helps separate the user interface, business logic, and data sources, making the application easier to maintain, test, and scale.
+This separation helps keep the UI, business logic, and data access independent from each other.
+
+---
+##
 
 UI & Design
 
-The application follows a simple and eye-friendly design approach.
+The application follows a simple and eye-friendly design philosophy.
 
-The UI focuses on:
+The interface was designed to:
 
-Simple and intuitive user experience
-Clean layouts
-Consistent spacing and typography
-Clear navigation
-Reusable components
-Light, Dark, and Sepia themes
-Comfortable and customizable visual experience
+Keep the user experience simple and intuitive
+Reduce visual complexity
+Maintain consistent spacing and typography
+Provide clear navigation
+Support multiple themes
+Provide comfortable Light, Dark, and Sepia modes
 Security
 
-NoteApp uses Flutter Secure Storage to securely store sensitive local information such as PIN-related data.
+NoteApp uses Flutter Secure Storage for storing sensitive local information such as PIN-related data.
 
 Firebase is used for cloud-based note and media management.
 
@@ -169,3 +203,4 @@ View the source code
 License
 
 This project was created as a Flutter application for learning, development, and portfolio purposes.
+
