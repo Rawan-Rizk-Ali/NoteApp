@@ -1,19 +1,20 @@
-import 'dart:convert';
 import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:record/record.dart';
 import 'package:noteapp/core/constant/app_color.dart';
 import 'package:noteapp/core/constant/app_strings.dart';
-import 'package:noteapp/data/services/firebase_service.dart';
-import 'package:noteapp/model/note_model.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:record/record.dart';
+import 'package:noteapp/features/addNote/data/datasources/add_note_remote_datasource.dart';
+import 'package:noteapp/features/addNote/data/datasources/image_upload_datasource.dart';
+import 'package:noteapp/features/addNote/data/repositories/add_note_repository_impl.dart';
+import 'package:noteapp/features/addNote/domain/repositories/add_note_repository.dart';
+import 'package:noteapp/features/addNote/presentation/provider/add_note_provider.dart';
+import 'package:noteapp/features/notes/domain/entities/note.dart';
 
 class AddNoteScreen extends StatefulWidget {
-  final NoteModel? note;
+  final Note? note;
 
   const AddNoteScreen({
     super.key,
@@ -28,7 +29,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController contentController = TextEditingController();
 
-  final FirebaseService firebaseService = FirebaseService();
+  late final AddNoteProvider addNoteProvider;
 
   final AudioRecorder audioRecorder = AudioRecorder();
 
@@ -51,6 +52,20 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
   void initState() {
     super.initState();
 
+    final AddNoteRepository repository =
+        AddNoteRepositoryImpl(
+      remoteDataSource: AddNoteRemoteDataSource(),
+      imageUploadDataSource: ImageUploadDataSource(
+        apiKey: const String.fromEnvironment(
+          'IMGBB_API_KEY',
+        ),
+      ),
+    );
+
+    addNoteProvider = AddNoteProvider(
+      repository: repository,
+    );
+
     if (widget.note != null) {
       titleController.text = widget.note!.title;
       contentController.text = widget.note!.content;
@@ -66,6 +81,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
     titleController.dispose();
     contentController.dispose();
     audioRecorder.dispose();
+    addNoteProvider.dispose();
     super.dispose();
   }
 
@@ -79,38 +95,31 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
       await stopRecording();
     }
 
-    List<String> imageUrls = [];
-
-    for (final image in selectedImages) {
-      final url = await uploadImageToImgBB(image);
-
-      if (url != null) {
-        imageUrls.add(url);
-      }
-    }
-
-    final note = NoteModel(
-      id: widget.note?.id,
-      title: titleController.text.trim(),
-      content: contentController.text.trim(),
-      imageUrls: imageUrls.isNotEmpty
-          ? imageUrls
-          : (widget.note?.imageUrls ?? []),
-      audioUrl: audioFilePath ?? widget.note?.audioUrl,
-      colorIndex: AppColors.noteColors.indexOf(selectedColor),
-      isPinned: widget.note?.isPinned ?? false,
-      createdAt: widget.note?.createdAt ?? Timestamp.now(),
+    final success = await addNoteProvider.saveNote(
+      existingNote: widget.note,
+      title: titleController.text,
+      content: contentController.text,
+      selectedImages: selectedImages,
+      audioFilePath: audioFilePath,
+      colorIndex: AppColors.noteColors.indexOf(
+        selectedColor,
+      ),
     );
-
-    if (widget.note == null) {
-      await firebaseService.addNote(note);
-    } else {
-      await firebaseService.updateNote(note);
-    }
 
     if (!mounted) return;
 
-    Navigator.pop(context);
+    if (success) {
+      Navigator.pop(context);
+      return;
+    }
+
+    if (addNoteProvider.error != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(addNoteProvider.error!),
+        ),
+      );
+    }
   }
 
   Future<void> pickImage() async {
@@ -190,51 +199,6 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
         ),
       );
     }
-  }
-
-  Future<String?> uploadImageToImgBB(
-    File imageFile,
-  ) async {
-    const apiKey =
-        '9b58b9c23bcfd5619d1b023e931baf9d';
-
-    final url = Uri.parse(
-      'https://api.imgbb.com/1/upload?key=$apiKey',
-    );
-
-    try {
-      final request = http.MultipartRequest(
-        'POST',
-        url,
-      );
-
-      request.files.add(
-        await http.MultipartFile.fromPath(
-          'image',
-          imageFile.path,
-        ),
-      );
-
-      final response = await request.send();
-
-      if (response.statusCode == 200) {
-        final responseData =
-            await response.stream.bytesToString();
-
-        final jsonResponse =
-            json.decode(responseData);
-
-        return jsonResponse['data']['url'];
-      } else {
-        debugPrint(
-          "Upload Failed ${response.statusCode}",
-        );
-      }
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-
-    return null;
   }
 
   void showColorPicker() {
@@ -326,7 +290,9 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
         Theme.of(context).brightness ==
             Brightness.dark;
 
-    return Scaffold(
+    return ChangeNotifierProvider.value(
+      value: addNoteProvider,
+      child: Scaffold(
       backgroundColor:
           Theme.of(context)
               .scaffoldBackgroundColor,
@@ -877,6 +843,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
             ],
           ),
         ),
+      ),
       ),
     );
   }

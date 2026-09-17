@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../core/constant/app_color.dart';
-import '../core/localization/app_strings.dart';
-import '../core/routes/appRoutes.dart';
+import 'package:noteapp/core/constant/app_color.dart';
+import 'package:noteapp/core/localization/app_strings.dart';
+import 'package:noteapp/core/routes/appRoutes.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});

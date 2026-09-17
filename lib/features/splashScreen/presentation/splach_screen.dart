@@ -1,23 +1,19 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:noteapp/core/constant/app_images.dart';
+import 'package:noteapp/core/routes/appRoutes.dart';
+import 'package:noteapp/data/services/pin_service.dart';
+import 'package:noteapp/features/pinscreen/presentation/PinScreen.dart';
+import 'package:noteapp/model/pin_mode.dart';
 
-import '../core/constant/app_images.dart';
-import '../core/routes/appRoutes.dart';
-import '../data/services/pin_service.dart';
-import '../model/pin_mode.dart';
-import 'PinScreen.dart';
-
-
-class SplachScreen extends StatefulWidget {
-  const SplachScreen({super.key});
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
 
   @override
-  State<SplachScreen> createState() => _SplachScreenState();
+  State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplachScreenState extends State<SplachScreen> {
-
+class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
@@ -25,7 +21,6 @@ class _SplachScreenState extends State<SplachScreen> {
   }
 
   Future<void> _navigate() async {
-
     await Future.delayed(const Duration(seconds: 5));
 
     if (!mounted) return;

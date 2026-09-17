@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../core/constant/app_color.dart';
-import '../data/services/pin_service.dart';
-import '../model/pin_mode.dart';
+import 'package:noteapp/core/constant/app_color.dart';
+import 'package:noteapp/data/services/pin_service.dart';
+import 'package:noteapp/model/pin_mode.dart';
 
 
 class PinScreen extends StatefulWidget {

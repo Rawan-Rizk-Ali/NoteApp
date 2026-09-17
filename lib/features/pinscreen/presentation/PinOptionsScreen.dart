@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../model/pin_mode.dart';
-import '../features/PinScreen.dart';
-
+import 'package:noteapp/core/localization/app_strings.dart';
+import 'package:noteapp/features/pinscreen/presentation/PinScreen.dart';
+import 'package:noteapp/model/pin_mode.dart';
 
 class PinOptionsScreen extends StatelessWidget {
   const PinOptionsScreen({super.key});
@@ -10,14 +10,13 @@ class PinOptionsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("PIN Settings"),
+        title: Text(AppStrings.tr("pin_settings")),
       ),
       body: ListView(
         children: [
-
           ListTile(
             leading: const Icon(Icons.lock_outline),
-            title: const Text("Create PIN"),
+            title: Text(AppStrings.tr("create_pin")),
             onTap: () {
               Navigator.push(
                 context,
@@ -29,12 +28,9 @@ class PinOptionsScreen extends StatelessWidget {
               );
             },
           ),
-
           ListTile(
             leading: const Icon(Icons.edit),
-            title: const Text("Change PIN",
-
-            ),
+            title: Text(AppStrings.tr("change_pin")),
             onTap: () {
               Navigator.push(
                 context,
@@ -46,10 +42,9 @@ class PinOptionsScreen extends StatelessWidget {
               );
             },
           ),
-
           ListTile(
             leading: const Icon(Icons.delete_outline),
-            title: const Text("Delete PIN"),
+            title: Text(AppStrings.tr("delete_pin")),
             onTap: () {
               Navigator.push(
                 context,

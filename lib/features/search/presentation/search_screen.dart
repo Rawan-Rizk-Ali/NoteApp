@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:noteapp/core/constant/app_color.dart';
-import 'package:noteapp/features/note_dateils_screen.dart';
-import 'package:noteapp/model/note_model.dart';
+import 'package:noteapp/features/noteDetails/presentation/pages/note_dateils_screen.dart';
+import 'package:noteapp/features/notes/data/models/note_models.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -23,9 +23,6 @@ class _SearchScreenState extends State<SearchScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
 
-      // =========================
-      // APP BAR
-      // =========================
       appBar: AppBar(
         backgroundColor: Theme.of(context).appBarTheme.backgroundColor,
 
@@ -86,10 +83,6 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
         ),
       ),
-
-      // =========================
-      // NOTES
-      // =========================
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection("notes")
@@ -101,13 +94,12 @@ class _SearchScreenState extends State<SearchScreen> {
           if (!snapshot.hasData) {
             return const Center(child: CircularProgressIndicator());
           }
-          final notes = snapshot.data!.docs
-              .map((e) => NoteModel.fromFirestore(e))
-              .where((note) {
-                return note.title.toLowerCase().contains(searchText) ||
-                    note.content.toLowerCase().contains(searchText);
-              })
-              .toList();
+      final notes = snapshot.data!.docs
+    .map((e) => NoteModel.fromFirestore(e).toEntity())
+    .where((note) {
+      return note.title.toLowerCase().contains(searchText);
+    })
+    .toList();
           if (notes.isEmpty) {
             return const Center(
               child: Text(
@@ -239,8 +231,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         ),
 
                       const SizedBox(height: 10),
-                      Text(
-                        note.createdAt.toDate().toString().substring(0, 16),
+                      Text(note.createdAt.toString().substring(0, 16),
 
                         style: const TextStyle(
                           color: AppColors.subtitle,
