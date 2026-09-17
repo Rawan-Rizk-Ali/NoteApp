@@ -1,5 +1,5 @@
 NoteApp
---------------------------------------------------------------------------------------------------------------
+
 A modern Flutter note-taking application designed to provide a simple, secure, and customizable way to create and manage notes.
 
 About The Project
