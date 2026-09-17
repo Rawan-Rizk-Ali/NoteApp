@@ -132,4 +132,61 @@ lib/
 ├── app.dart
 ├── firebase_options.dart
 └── main.dart
+---
+## Architecture
+The project follows a feature-based Clean Architecture approach.
 
+Each major feature is separated into three main layers:
+
+Presentation
+      ↓
+Domain
+      ↓
+Data
+
+This separation helps keep the UI, business logic, and data access independent from each other.
+
+---
+## UI & Design
+
+The application follows a simple and eye-friendly design philosophy.
+
+The interface was designed to:
+
+Keep the user experience simple and intuitive
+Reduce visual complexity
+Maintain consistent spacing and typography
+Provide clear navigation
+Support multiple themes
+Provide comfortable Light, Dark, and Sepia modes
+
+---
+## Getting Started
+Prerequisites
+
+Make sure you have:
+
+Flutter SDK
+Dart SDK
+Android Studio or VS Code
+A Firebase project
+Installation
+
+Clone the repository:
+
+git clone https://github.com/Rawan-Rizk-Ali/NoteApp.git
+
+Navigate to the project:
+
+cd NoteApp
+
+Install dependencies:
+
+flutter pub get
+
+Run the application:
+
+flutter run
+GitHub
+
+View the source code
