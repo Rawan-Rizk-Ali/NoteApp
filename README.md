@@ -60,6 +60,8 @@ The project follows a feature-based Clean Architecture structure to improve code
 
 ## Project Structure
 
+```text
+
 lib/
 ├── core/
 │   ├── constant/
